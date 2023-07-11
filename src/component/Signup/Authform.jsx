@@ -65,12 +65,12 @@ export default function AuthForm() {
         .post("http://localhost:3000/login", { email, password })
         .then((response) => {
           console.log(response)
-          // const { token } = response.data;
+          const { token } = response.data;
 
-          // const userId = response.data.userId; // Replace `response.data.userId` with the actual response data containing the user ID
+          const userId = response.data.userId; // Replace `response.data.userId` with the actual response data containing the user ID
 
-          // localStorage.setItem("userId", userId);
-          // localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("token", token);
 
           // dispatch(authActions.islogin(token))
           
