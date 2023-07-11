@@ -18,7 +18,7 @@ export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const nameInputRef=useRef()
   const emailInputRef = useRef();
-  const passwordInputRef = useRef();
+ 
   const confirmPasswordInputRef = useRef();
 
   const switchAuthModeHandler = () => {
@@ -42,18 +42,18 @@ export default function AuthForm() {
         .post("http://localhost:3000/signup", { name, email, password })
         .then((response) => {
           console.log(response.data);
-          const { token } = response.data;
-          const {userId}=response.data
-          console.log(token);
-          console.log(userId)
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("token", token);
+          // const { token } = response.data;
+          // const {userId}=response.data
+          // console.log(token);
+          // console.log(userId)
+          // localStorage.setItem("userId", userId);
+          // localStorage.setItem("token", token);
 
-          dispatch(authActions.islogin(token))
+          // dispatch(authActions.islogin(token))
         //   navigate("/loggedin");
           // Store the token in local storage or cookies
           // Perform any necessary actions after successful signup
-          console.log(response.data);
+          
         })
         .catch((error) => {
           console.error(error);
@@ -105,17 +105,9 @@ export default function AuthForm() {
               <label htmlFor="email">Your Email</label>
               <input type="email" id="email" ref={emailInputRef} required />
             </div>
+            
             <div className={classes.control}>
-              <label htmlFor="password">Your Password</label>
-              <input
-                type="password"
-                id="password"
-                ref={passwordInputRef}
-                required
-              />
-            </div>
-            <div className={classes.control}>
-              <label htmlFor="confirmpassword">Confirm Password</label>
+              <label htmlFor="confirmpassword">Password</label>
               <input
                 type="password"
                 id="confirmpassword"
