@@ -53,6 +53,7 @@ export default function AuthForm() {
         //   navigate("/loggedin");
           // Store the token in local storage or cookies
           // Perform any necessary actions after successful signup
+         
           
         })
         .catch((error) => {
@@ -63,20 +64,23 @@ export default function AuthForm() {
       axios
         .post("http://localhost:3000/login", { email, password })
         .then((response) => {
-          const { token } = response.data;
+          console.log(response)
+          // const { token } = response.data;
 
-          const userId = response.data.userId; // Replace `response.data.userId` with the actual response data containing the user ID
+          // const userId = response.data.userId; // Replace `response.data.userId` with the actual response data containing the user ID
 
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("token", token);
+          // localStorage.setItem("userId", userId);
+          // localStorage.setItem("token", token);
 
-          dispatch(authActions.islogin(token))
+          // dispatch(authActions.islogin(token))
+          alert('USER LOGGED IN')
         //   navigate("/loggedin");
           // Store the token in local storage or cookies
           // Perform any necessary actions after successful login
         })
         .catch((error) => {
-          console.error(error);
+          alert(error.response.data.error)
+          console.error(error.response.data.error);
           // Handle login error
         });
     }
