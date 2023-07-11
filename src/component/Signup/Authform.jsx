@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 import classes from "./AuthForm.module.css";
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthReducer";
 
 export default function AuthForm() {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
@@ -73,8 +73,8 @@ export default function AuthForm() {
           // localStorage.setItem("token", token);
 
           // dispatch(authActions.islogin(token))
-          alert('USER LOGGED IN')
-        //   navigate("/loggedin");
+          
+          navigate("/expensetracker");
           // Store the token in local storage or cookies
           // Perform any necessary actions after successful login
         })
