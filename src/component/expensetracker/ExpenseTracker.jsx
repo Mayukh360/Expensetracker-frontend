@@ -210,7 +210,7 @@ export default function ExpenseTracker() {
       )}
       {/* ***** */}
 
-      {/* {isToggle && (
+      {isToggle && (
         <div className="bg-gray-900">
           <button
             onClick={downloadExpensesAsTxt}
@@ -292,7 +292,7 @@ export default function ExpenseTracker() {
             ))}
           </ul>
         </div>
-      )} */}
+      )}
     </>
   );
 }

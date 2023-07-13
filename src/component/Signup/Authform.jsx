@@ -42,15 +42,15 @@ export default function AuthForm() {
         .post("http://localhost:3000/signup", { name, email, password })
         .then((response) => {
           console.log(response.data);
-          // const { token } = response.data;
-          // const {userId}=response.data
+          const { token } = response.data;
+          const {userId}=response.data
           // console.log(token);
           // console.log(userId)
-          // localStorage.setItem("userId", userId);
-          // localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("token", token);
 
-          // dispatch(authActions.islogin(token))
-        //   navigate("/loggedin");
+          dispatch(authActions.islogin(token))
+          navigate("/expensetracker");
           // Store the token in local storage or cookies
           // Perform any necessary actions after successful signup
          
