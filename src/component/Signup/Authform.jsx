@@ -64,15 +64,19 @@ export default function AuthForm() {
       axios
         .post("http://localhost:3000/login", { email, password })
         .then((response) => {
-          console.log(response)
+          console.log(response.data)
           const { token } = response.data;
 
-          const userId = response.data.userId; // Replace `response.data.userId` with the actual response data containing the user ID
+          const {userId} = response.data; // Replace `response.data.userId` with the actual response data containing the user ID
+          const {isPremium}=response.data; 
+
+          dispatch(authActions.ispremium(isPremium));
+          console.log("isPremium",isPremium)
 
           localStorage.setItem("userId", userId);
           localStorage.setItem("token", token);
 
-          // dispatch(authActions.islogin(token))
+          dispatch(authActions.islogin(token))
           
           navigate("/expensetracker");
           // Store the token in local storage or cookies

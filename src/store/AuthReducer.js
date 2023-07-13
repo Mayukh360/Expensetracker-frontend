@@ -17,7 +17,8 @@ const authSlice = createSlice({
       localStorage.removeItem("userId");
     },
     ispremium(state, action) {
-      if (action.payload > 1000 ) {
+      console.log("This is from redux", action.payload)
+      if (action.payload == true ) {
         state.isPremium = true;
       } else {
         state.isPremium = false;

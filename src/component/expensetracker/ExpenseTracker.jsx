@@ -10,7 +10,7 @@ export default function ExpenseTracker() {
   const formRef = useRef();
   const dispatch = useDispatch();
   const [expenses, setExpenses] = useState([]);
-  const isToggle = useSelector((state) => state.auth.darkToggle);
+  const isPremium= useSelector((state) => state.auth.isPremium);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const [updateData, setUpdateData] = useState(null);
@@ -98,9 +98,7 @@ export default function ExpenseTracker() {
     0
   );
 
-  if (sum) {
-    dispatch(authActions.ispremium(sum));
-  }
+
   // setTotalExpense(sum);
   // console.log(sum)
   function downloadExpensesAsTxt() {
@@ -121,13 +119,13 @@ export default function ExpenseTracker() {
 
   return (
     <>
-      {isToggle && (
+      {isPremium && (
         <h1 className="text-white bg-gray-900 py-4 text-center  font-bold">
           Dark Theme Activated
         </h1>
       )}
 
-      {!isToggle && (
+      {!isPremium && (
         <div>
           <form
             ref={formRef}
@@ -210,7 +208,7 @@ export default function ExpenseTracker() {
       )}
       {/* ***** */}
 
-      {isToggle && (
+      {isPremium && (
         <div className="bg-gray-900">
           <button
             onClick={downloadExpensesAsTxt}

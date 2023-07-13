@@ -10,8 +10,8 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const isPremium = useSelector((state) => state.auth.isPremium);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
-  const token=localStorage.getItem('token')
-//   dispatch(authActions.isToggle());
+  const token = localStorage.getItem("token");
+  //   dispatch(authActions.isToggle());
 
   const navigate = useNavigate();
   // const authCtx = useContext(AuthContext);
@@ -33,9 +33,9 @@ export default function Navbar() {
           },
         }
       );
-  
+
       const { keyId, orderId } = response.data;
-  
+
       const options = {
         key: keyId,
         amount: 1000, // Example amount
@@ -45,10 +45,10 @@ export default function Navbar() {
         order_id: orderId,
         handler: async function (response) {
           // Handler function for success or failure
-  
+
           if (response.razorpay_payment_id) {
             // Payment successful
-  
+
             // Make a request to update the transaction
             const updateResponse = await axios.put(
               `http://localhost:3000/razorpay/transaction/${orderId}`,
@@ -61,13 +61,16 @@ export default function Navbar() {
                 },
               }
             );
-              //  dispatch(authActions.isToggle());
+            if (
+              updateResponse.data.message === "Transaction updated successfully"
+            ) {
+              // Payment successful and transaction updated
 
-            // Handle the response and perform necessary actions
-  
-            // Redirect or display a success message to the user
+              // Dispatch an action to set the isPremium state to true
+              dispatch(authActions.ispremium(true));
+            }
           } else {
-            alert('Payment Failed')
+            alert("Payment Failed");
             // Payment failed
             // Handle the failure case
           }
@@ -84,17 +87,14 @@ export default function Navbar() {
           color: "#F37254",
         },
       };
-  
+
       const razorpayInstance = new window.Razorpay(options);
       razorpayInstance.open();
-  
     } catch (error) {
       // Handle error
     }
   };
-  
 
-  
   return (
     <Fragment>
       <nav className="flex items-center justify-between  bg-gradient-to-b from-blue-300 to-purple-900 p-4 border border-gray-300">
@@ -112,7 +112,7 @@ export default function Navbar() {
               </button>
             </Link>
           )}
-          {isPremium && (
+          {!isPremium && isLoggedIn && (
             <button
               onClick={toggleHandler}
               className="text-white font-medium bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-r hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 px-4 py-2 rounded-md mr-4"
@@ -131,7 +131,6 @@ export default function Navbar() {
           )}
         </div>
       </nav>
-     
     </Fragment>
   );
 }
