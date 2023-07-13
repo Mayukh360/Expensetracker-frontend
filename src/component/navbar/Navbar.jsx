@@ -61,11 +61,13 @@ export default function Navbar() {
                 },
               }
             );
-  
+              //  dispatch(authActions.isToggle());
+
             // Handle the response and perform necessary actions
   
             // Redirect or display a success message to the user
           } else {
+            alert('Payment Failed')
             // Payment failed
             // Handle the failure case
           }
