@@ -1,17 +1,17 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/AuthReducer";
 import { useSelector } from "react-redux";
 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ExpenseTracker() {
   const formRef = useRef();
   const dispatch = useDispatch();
   const [expenses, setExpenses] = useState([]);
-  const isPremium= useSelector((state) => state.auth.isPremium);
-  const isPremiumReload=localStorage.getItem("isPremium")
+  const isPremium = useSelector((state) => state.auth.isPremium);
+  const navigate=useNavigate()
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
@@ -38,10 +38,8 @@ export default function ExpenseTracker() {
   useEffect(() => {
     if (token) {
       dispatch(authActions.islogin(token));
-    //    const isPremiumReload=localStorage.getItem('isPremium')
-    // dispatch(authActions.ispremium(isPremiumReload));
-    
-    
+      //    const isPremiumReload=localStorage.getItem('isPremium')
+      // dispatch(authActions.ispremium(isPremiumReload));
     }
 
     fetchData();
@@ -104,6 +102,9 @@ export default function ExpenseTracker() {
     0
   );
 
+  const leaderBoardHandler = () => {
+    navigate('/leaderboard')
+  };
 
   // setTotalExpense(sum);
   // console.log(sum)
@@ -127,7 +128,7 @@ export default function ExpenseTracker() {
     <>
       {isPremium && (
         <h1 className="text-white bg-gray-900 py-4 text-center  font-bold">
-         You Are Premium User
+          You Are Premium User
         </h1>
       )}
 
@@ -221,6 +222,12 @@ export default function ExpenseTracker() {
             className="bg-purple-600 text-white font-medium py-2 px-4 rounded"
           >
             Download File
+          </button>
+          <button
+            onClick={leaderBoardHandler}
+            className="bg-green-600 text-white font-medium py-2 px-4 ml-4 rounded"
+          >
+            Leaderboard
           </button>
           <form
             ref={formRef}

@@ -12,6 +12,7 @@ export default function Navbar() {
   const isPremiumReload=localStorage.getItem("isPremium")
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const token = localStorage.getItem("token");
+  const email=localStorage.getItem('email')
   
   //   dispatch(authActions.isToggle());
   useEffect(() => {
@@ -120,6 +121,7 @@ export default function Navbar() {
               </button>
             </Link>
           )}
+          {email && <span className="text-white font-medium mr-4 bg-green-600 py-2 px-2">{email}</span>}
           {!isPremium && isLoggedIn && (
             <button
               onClick={toggleHandler}
