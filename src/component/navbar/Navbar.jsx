@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -9,9 +9,16 @@ import axios from "axios";
 export default function Navbar() {
   const dispatch = useDispatch();
   const isPremium = useSelector((state) => state.auth.isPremium);
+  const isPremiumReload=localStorage.getItem("isPremium")
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const token = localStorage.getItem("token");
+  
   //   dispatch(authActions.isToggle());
+  useEffect(() => {
+    dispatch(authActions.ispremium(isPremiumReload === "true"));
+  }, []);
+
+ 
 
   const navigate = useNavigate();
   // const authCtx = useContext(AuthContext);
@@ -68,6 +75,7 @@ export default function Navbar() {
 
               // Dispatch an action to set the isPremium state to true
               dispatch(authActions.ispremium(true));
+              localStorage.setItem('isPremium',true)
             }
           } else {
             alert("Payment Failed");

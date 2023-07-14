@@ -75,6 +75,7 @@ export default function AuthForm() {
 
           localStorage.setItem("userId", userId);
           localStorage.setItem("token", token);
+          localStorage.setItem('isPremium',isPremium);
 
           dispatch(authActions.islogin(token))
           

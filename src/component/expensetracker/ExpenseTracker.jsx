@@ -11,8 +11,10 @@ export default function ExpenseTracker() {
   const dispatch = useDispatch();
   const [expenses, setExpenses] = useState([]);
   const isPremium= useSelector((state) => state.auth.isPremium);
+  const isPremiumReload=localStorage.getItem("isPremium")
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+
   const [updateData, setUpdateData] = useState(null);
 
   async function fetchData() {
@@ -36,6 +38,10 @@ export default function ExpenseTracker() {
   useEffect(() => {
     if (token) {
       dispatch(authActions.islogin(token));
+    //    const isPremiumReload=localStorage.getItem('isPremium')
+    // dispatch(authActions.ispremium(isPremiumReload));
+    
+    
     }
 
     fetchData();
@@ -121,7 +127,7 @@ export default function ExpenseTracker() {
     <>
       {isPremium && (
         <h1 className="text-white bg-gray-900 py-4 text-center  font-bold">
-          Dark Theme Activated
+         You Are Premium User
         </h1>
       )}
 
