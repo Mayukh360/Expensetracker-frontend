@@ -225,13 +225,13 @@ export default function ExpenseTracker() {
         <div className="bg-gray-900">
           <button
             onClick={downloadExpensesAsTxt}
-            className="bg-purple-600 text-white font-medium py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-800  text-white font-medium py-2 px-4 rounded"
           >
             Download File
           </button>
           <button
             onClick={leaderBoardHandler}
-            className="bg-green-600 text-white font-medium py-2 px-4 ml-4 rounded"
+            className="bg-green-600 hover:bg-green-800 text-white font-medium py-2 px-4 ml-4 rounded"
           >
             Leaderboard
           </button>

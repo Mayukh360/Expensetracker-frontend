@@ -121,7 +121,7 @@ export default function Navbar() {
               </button>
             </Link>
           )}
-          {email && <span className="text-white font-medium mr-4 bg-green-600 py-2 px-2">{email}</span>}
+          {email && <span className="text-white font-medium mr-4 bg-green-600 hover:bg-green-800 py-2 px-2">{email}</span>}
           {!isPremium && isLoggedIn && (
             <button
               onClick={toggleHandler}
@@ -134,7 +134,7 @@ export default function Navbar() {
           {isLoggedIn && (
             <button
               onClick={logoutHandler}
-              className="text-white font-medium hover:underline px-4 py-2 rounded-md bg-red-800"
+              className="text-white font-medium  px-4 py-2 rounded-md bg-red-600 hover:bg-red-800"
             >
               Logout
             </button>
