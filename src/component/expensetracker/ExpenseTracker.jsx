@@ -16,6 +16,10 @@ export default function ExpenseTracker() {
   const token = localStorage.getItem("token");
 
   const [updateData, setUpdateData] = useState(null);
+  const sum = expenses.reduce(
+    (total, expense) => total + parseInt(expense.amount),
+    0
+  );
 
   async function fetchData() {
     const response = await axios.get("http://localhost:3000/getData");
@@ -52,12 +56,14 @@ export default function ExpenseTracker() {
     const descriptionInput = formRef.current.elements.description.value;
     const categoryInput = formRef.current.elements.category.value;
     // console.log(amountInput, descriptionInput, categoryInput);
-    // event.target.reset();
+    event.target.reset();
 
     const expenseData = {
       amount: parseInt(amountInput),
       description: descriptionInput,
       category: categoryInput,
+      totalexpense: sum,
+      
     };
     // setExpenses([expenseData]);
     // setExpenses((prevExpenses) => [...prevExpenses, expenseData]);
@@ -97,10 +103,7 @@ export default function ExpenseTracker() {
     }
   };
 
-  const sum = expenses.reduce(
-    (total, expense) => total + parseInt(expense.amount),
-    0
-  );
+
 
   const leaderBoardHandler = () => {
     navigate('/leaderboard')
@@ -146,6 +149,7 @@ export default function ExpenseTracker() {
               type="number"
               id="amount"
               className="border border-gray-300 rounded px-3 py-2 mb-3 w-full"
+              required
             />
             <label className="block mb-2 font-medium text-gray-800">
               Expense Description
@@ -154,6 +158,7 @@ export default function ExpenseTracker() {
               type="text"
               id="description"
               className="border border-gray-300 rounded px-3 py-2 mb-3 w-full"
+              required
             />
             <label className="block mb-2 font-medium text-gray-800">
               Select Category
@@ -161,6 +166,7 @@ export default function ExpenseTracker() {
             <select
               id="category"
               className="border border-gray-300 rounded px-3 py-2 mb-3 w-full"
+              required
             >
               <option value="">Select Category</option>
               <option value="fuel">Fuel</option>

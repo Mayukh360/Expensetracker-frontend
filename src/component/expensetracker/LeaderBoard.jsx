@@ -25,7 +25,7 @@ export default function LeaderBoard() {
     <ul className="space-y-2">
       {leaderboard && leaderboard.map((item, index) => (
         <li key={index} className="text-lg bg-gray-700 p-4 rounded">
-          <span className="font-semibold">{item.name}</span> - {item.totalExpenses}
+          <span className="font-semibold">{item.name}</span> - {item.totalexpense}
         </li>
       ))}
     </ul>
