@@ -4,6 +4,7 @@ import ExpenseTracker from "./component/expensetracker/ExpenseTracker";
 import Navbar from "./component/navbar/Navbar";
 import { useSelector } from "react-redux";
 import LeaderBoard from "./component/expensetracker/LeaderBoard";
+import ForgotPassword from "./component/Signup/ForgotPassword";
 
 function App() {
   const isLoggedIn=useSelector(state=>state.auth.isAuthenticated)
@@ -16,6 +17,7 @@ function App() {
       <Route path="/leaderboard" element={<LeaderBoard/>} />
       {/* <Route path="/expensetracker" element={<ExpenseTracker/>} /> */}
       {isLoggedIn ? ( <Route path="/expensetracker" element={<ExpenseTracker/>} />) :(<Route path="/expensetracker" element={<AuthForm/>} />)}
+      <Route path="/forgotpassword" element={<ForgotPassword/>} />
       </Routes>
     </div>
   );

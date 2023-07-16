@@ -27,13 +27,14 @@ export default function AuthForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const enteredEmail = emailInputRef.current.value;
+   
     // const changedemail = enteredEmail.replace("@", "").replace(".", "");
 
-    localStorage.setItem("email", enteredEmail);
+   
     const name=nameInputRef.current.value;
     const email = emailInputRef.current.value;
     const password = confirmPasswordInputRef.current.value;
+    localStorage.setItem("email", email);
     // console.log(enteredName,enteredEmail, enteredPassword, confirmPassword);
 
     setIsLoading(true);
@@ -100,6 +101,11 @@ export default function AuthForm() {
     }
   }, []);
 
+  const forgotHandler=(event)=>{
+    event.preventDefault();
+    navigate('/forgotpassword')
+ 
+  }
   return (
     <div>
       {!isLoggedIn && (
@@ -139,7 +145,7 @@ export default function AuthForm() {
               </button>
             </div>
             <div className={classes.actions}>
-              <button className={classes.forgot}>Forgot Password</button>
+              <button onClick={forgotHandler} className={classes.forgot}>Forgot Password</button>
             </div>
           </form>
         </section>
