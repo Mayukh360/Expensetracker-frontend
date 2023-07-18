@@ -111,20 +111,31 @@ export default function ExpenseTracker() {
 
   // setTotalExpense(sum);
   // console.log(sum)
-  function downloadExpensesAsTxt() {
-    const data = expenses.map((expense) => {
-      return `Amount: ${expense.amount} | Description: ${expense.description} | Category: ${expense.category}`;
-    });
-    const text = data.join("\n");
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
+  async function downloadExpensesAsTxt() {
+    // const data = expenses.map((expense) => {
+    //   return `Amount: ${expense.amount} | Description: ${expense.description} | Category: ${expense.category}`;
+    // });
+    // const text = data.join("\n");
+    // const blob = new Blob([text], { type: "text/plain" });
+    // const url = URL.createObjectURL(blob);
 
+    // const link = document.createElement("a");
+    // link.href = url;
+    // link.download = "expenses.txt";
+    // link.click();
+
+    // URL.revokeObjectURL(url);
+   const response= await axios.get("http://localhost:3000/download",{
+      headers: {
+        Authorization: localStorage.getItem("token"), // Include the JWT token from local storage
+      },
+    })
+    console.log(response.data)
+    const { fileUrl}=response.data;
     const link = document.createElement("a");
-    link.href = url;
+    link.href = fileUrl;
     link.download = "expenses.txt";
     link.click();
-
-    URL.revokeObjectURL(url);
   }
 
   return (
