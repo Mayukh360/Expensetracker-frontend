@@ -138,6 +138,10 @@ export default function ExpenseTracker() {
     link.click();
   }
 
+  const allDownload=()=>{
+    navigate('/alldownload')
+  }
+
   return (
     <>
       {isPremium && (
@@ -236,10 +240,18 @@ export default function ExpenseTracker() {
         <div className="bg-gray-900">
           <button
             onClick={downloadExpensesAsTxt}
-            className="bg-purple-600 hover:bg-purple-800  text-white font-medium py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-800 ml-2 text-white font-medium py-2 px-4 rounded"
           >
             Download File
           </button>
+
+          <button
+            onClick={allDownload}
+            className="bg-pink-600 hover:bg-pink-800 ml-4 text-white font-medium py-2 px-4 rounded"
+          >
+           All Downloads
+          </button>
+          
           <button
             onClick={leaderBoardHandler}
             className="bg-green-600 hover:bg-green-800 text-white font-medium py-2 px-4 ml-4 rounded"

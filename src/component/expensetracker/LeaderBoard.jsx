@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from '../../store/AuthReducer';
+
 
 export default function LeaderBoard() {
     const token=localStorage.getItem('token')
    const [leaderboard,setLeaderBoard ]=useState([])
+   const dispatch = useDispatch();
+
 
     const fetchdata=async()=>{
         try {
@@ -17,6 +22,10 @@ export default function LeaderBoard() {
     }
     useEffect(()=>{
         fetchdata()
+        
+        if (token) {
+          dispatch(authActions.islogin(token));
+        }
     },[])
       
   return (

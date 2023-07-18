@@ -4,6 +4,7 @@ import AuthForm from "../Signup/AuthForm";
 import ExpenseTracker from "../expensetracker/ExpenseTracker";
 import LeaderBoard from "../expensetracker/LeaderBoard";
 import ForgotPassword from "../Signup/ForgotPassword";
+import Alldownload from "../expensetracker/Alldownload";
 
 const router = createBrowserRouter([
   { path: "/", element: <AuthForm /> },
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
   { path: "/expensetracker", element: <ExpenseTracker /> },
   { path: "/leaderboard", element: <LeaderBoard /> },
   { path: "/forgotpassword", element: <ForgotPassword/> },
+  { path: "/alldownload", element: <Alldownload/> },
 ]);
 export default function RenderPage() {
   return (
