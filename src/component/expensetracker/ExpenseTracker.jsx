@@ -10,10 +10,14 @@ export default function ExpenseTracker() {
   const formRef = useRef();
   const dispatch = useDispatch();
   const [expenses, setExpenses] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const isPremium = useSelector((state) => state.auth.isPremium);
-  const navigate=useNavigate()
-  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
+  // const ITEMS_PER_PAGE = 5;
 
   const [updateData, setUpdateData] = useState(null);
   const sum = expenses.reduce(
@@ -21,33 +25,34 @@ export default function ExpenseTracker() {
     0
   );
 
-  async function fetchData() {
-    const response = await axios.get("http://localhost:3000/getData");
-    const data = response.data;
-    const fetchedExpenses = [];
-    if (userId == response.data.userId) {
+  async function fetchData(page) {
+    try {
+      const response = await axios.get("http://localhost:3000/getData", {
+        params: { page, limit: itemsPerPage },
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      const { expenses, totalItems } = response.data;
+      setExpenses(expenses);
+      setTotalPages(Math.ceil(totalItems / itemsPerPage));
+    } catch (error) {
+      console.log(error);
     }
-    for (const key in data) {
-      if (data[key].userId == userId) {
-        fetchedExpenses.push({
-          id: data[key].id,
-          amount: data[key].amount,
-          description: data[key].description,
-          category: data[key].category,
-        });
-      }
-    }
-    setExpenses(fetchedExpenses);
   }
+
   useEffect(() => {
     if (token) {
       dispatch(authActions.islogin(token));
-      //    const isPremiumReload=localStorage.getItem('isPremium')
-      // dispatch(authActions.ispremium(isPremiumReload));
     }
 
-    fetchData();
-  }, []);
+    fetchData(currentPage);
+  }, [currentPage, itemsPerPage]);
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset the current page when items per page changes
+  };
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -63,10 +68,8 @@ export default function ExpenseTracker() {
       description: descriptionInput,
       category: categoryInput,
       totalexpense: sum,
-      
     };
-    // setExpenses([expenseData]);
-    // setExpenses((prevExpenses) => [...prevExpenses, expenseData]);
+
     console.log(expenseData);
     if (!updateData) {
       await axios.post("http://localhost:3000/getData", expenseData, {
@@ -82,7 +85,7 @@ export default function ExpenseTracker() {
       // console.log(updateData)
       setUpdateData(null);
     }
-    fetchData();
+    fetchData(currentPage);
   }
 
   const dltbtnHandler = (expenseId) => {
@@ -103,44 +106,27 @@ export default function ExpenseTracker() {
     }
   };
 
-
-
   const leaderBoardHandler = () => {
-    navigate('/leaderboard')
+    navigate("/leaderboard");
   };
 
-  // setTotalExpense(sum);
-  // console.log(sum)
   async function downloadExpensesAsTxt() {
-    // const data = expenses.map((expense) => {
-    //   return `Amount: ${expense.amount} | Description: ${expense.description} | Category: ${expense.category}`;
-    // });
-    // const text = data.join("\n");
-    // const blob = new Blob([text], { type: "text/plain" });
-    // const url = URL.createObjectURL(blob);
-
-    // const link = document.createElement("a");
-    // link.href = url;
-    // link.download = "expenses.txt";
-    // link.click();
-
-    // URL.revokeObjectURL(url);
-   const response= await axios.get("http://localhost:3000/download",{
+    const response = await axios.get("http://localhost:3000/download", {
       headers: {
         Authorization: localStorage.getItem("token"), // Include the JWT token from local storage
       },
-    })
-    console.log(response.data)
-    const { fileUrl}=response.data;
+    });
+    console.log(response.data);
+    const { fileUrl } = response.data;
     const link = document.createElement("a");
     link.href = fileUrl;
     link.download = "expenses.txt";
     link.click();
   }
 
-  const allDownload=()=>{
-    navigate('/alldownload')
-  }
+  const allDownload = () => {
+    navigate("/alldownload");
+  };
 
   return (
     <>
@@ -201,6 +187,21 @@ export default function ExpenseTracker() {
               </span>
             </div>
           </form>
+          <div className="flex items-center justify-center mt-4 space-x-4">
+            <span className="text-white bg-gradient-to-b from-blue-200 to-purple-700 px-2 py-2 font-medium text-black">
+              Select Number of Rows
+            </span>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="border bg-gradient-to-b from-blue-200 to-purple-700 border-white rounded px-3 py-2 text-black"
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
           <ul className="max-w-x1 mx-auto mt-6">
             {expenses.map((expense) => (
               <li
@@ -232,6 +233,25 @@ export default function ExpenseTracker() {
               </li>
             ))}
           </ul>
+          <div className="flex justify-center mt-4 space-x-4">
+            {currentPage > 1 && (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+              >
+                Previous Page
+              </button>
+            )}
+
+            {currentPage < totalPages && (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+              >
+                Next Page
+              </button>
+            )}
+          </div>
         </div>
       )}
       {/* ***** */}
@@ -249,9 +269,9 @@ export default function ExpenseTracker() {
             onClick={allDownload}
             className="bg-pink-600 hover:bg-pink-800 ml-4 text-white font-medium py-2 px-4 rounded"
           >
-           All Downloads
+            All Downloads
           </button>
-          
+
           <button
             onClick={leaderBoardHandler}
             className="bg-green-600 hover:bg-green-800 text-white font-medium py-2 px-4 ml-4 rounded"
@@ -283,10 +303,10 @@ export default function ExpenseTracker() {
               className="border bg-gray-700 border-white rounded px-3 py-2 mb-3 w-full text-white"
             >
               <option value="">Select Category</option>
+              <option value="fuel">Fuel</option>
+              <option value="electricity">Electricity</option>
               <option value="food">Food</option>
-              <option value="utilities">Utilities</option>
-              <option value="transportation">Transportation</option>
-              <option value="other">Other</option>
+              <option value="movie">Movie</option>
             </select>
             <button
               type="submit"
@@ -300,6 +320,21 @@ export default function ExpenseTracker() {
               </span>
             </div>
           </form>
+          <div className="flex items-center justify-center mt-4 space-x-4">
+            <span className="text-white bg-gray-500 px-2 py-2 font-medium">
+              Select Number of Rows
+            </span>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="border bg-gray-700 border-white rounded px-3 py-2 text-white"
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
           <ul className="max-w-x1 mx-auto mt-6">
             {expenses.map((expense) => (
               <li
@@ -331,6 +366,25 @@ export default function ExpenseTracker() {
               </li>
             ))}
           </ul>
+          <div className="flex justify-center mt-4 space-x-4">
+            {currentPage > 1 && (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+              >
+                Previous Page
+              </button>
+            )}
+
+            {currentPage < totalPages && (
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+              >
+                Next Page
+              </button>
+            )}
+          </div>
         </div>
       )}
     </>
