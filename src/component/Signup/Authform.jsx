@@ -52,14 +52,12 @@ export default function AuthForm() {
 
           dispatch(authActions.islogin(token))
           navigate("/expensetracker");
-          // Store the token in local storage or cookies
-          // Perform any necessary actions after successful signup
-         
+       
           
         })
         .catch((error) => {
           console.error(error);
-          // Handle signup error
+       
         });
     } else {
       axios

@@ -46,8 +46,8 @@ export default function Navbar() {
 
       const options = {
         key: keyId,
-        amount: 1000, // Example amount
-        currency: "INR", // Example currency
+        amount: 1000, 
+        currency: "INR",
         name: "Sharpener",
         description: "Purchase Premium",
         order_id: orderId,
@@ -81,12 +81,12 @@ export default function Navbar() {
           } else {
             alert("Payment Failed");
             // Payment failed
-            // Handle the failure case
+            
           }
         },
         prefill: {
           name: "Test",
-          email: "test@example.com",
+          email: "test@gmail.com",
           contact: "+919876543210",
         },
         notes: {
@@ -101,6 +101,7 @@ export default function Navbar() {
       razorpayInstance.open();
     } catch (error) {
       // Handle error
+      alert(error);
     }
   };
 

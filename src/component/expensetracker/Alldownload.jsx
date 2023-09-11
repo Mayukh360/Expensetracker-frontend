@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from '../../store/AuthReducer';
 
+//http://localhost:3000/
+
 export default function Alldownload() {
     const dispatch = useDispatch();
     const token=localStorage.getItem('token')
@@ -27,12 +29,12 @@ export default function Alldownload() {
     <h1 className="text-2xl font-bold mb-4">All Downloads</h1>
     <ul>
       {url &&
-        url.map((item) => (
+        url.map((item,index) => (
           <li
             key={item.id}
             className="bg-gray-700 p-4 rounded shadow my-2 flex items-center justify-between"
           >
-            <span className='text-white'>Expenses No: {item.id}</span>
+            <span className='text-white'>Expenses No: {index+1}</span>
             <a
               href={item.fileUrl}
               className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
